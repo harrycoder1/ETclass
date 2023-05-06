@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+  /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Rubik&display=swap'); */
+
+  @font-face { font-family: rubik; 
+    src:  url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Rubik&display=swap');
+  }
+*{
+  margin: 0px;
+  padding: 0px;
+}
+.nav-bg{
+  background: rgb(2,0,36);
+  background: -moz-linear-gradient(119deg, rgba(2,0,36,1) 0%, rgba(78,101,255,1) 0%, rgba(146,239,253,1) 100%);
+  background: -webkit-linear-gradient(119deg, rgba(2,0,36,1) 0%, rgba(78,101,255,1) 0%, rgba(146,239,253,1) 100%);
+  background: linear-gradient(119deg, rgba(2,0,36,1) 0%, rgba(78,101,255,1) 0%, rgba(146,239,253,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#92effd",GradientType=1);
+}
