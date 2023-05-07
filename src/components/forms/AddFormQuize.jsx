@@ -1,33 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {FormItem} from '../index'
 import { formData } from '../../constants/constant';
-import {IoAddSharp} from 'react-icons/all'
-// const format ={
-    //   title:"",
-    // img:"this.jpg"
-    //   description:"",formMakerEmail:"",
-    //   questions:[{
-    //     queMsg:"",
-    
-    //     answers:[
-    //       { value: "human",
-    //       correct: false,}
-    //     ] ,
-        
-    
-    //   }]
-    // }
- 
-// let myquest =[{
-//   queMsg:"the value",
+import {IoAddSharp ,CgCloseR} from 'react-icons/all'
 
-//   answers:[
-//     { value: "",
-//     correct: false,}
-//   ] ,
+const AddFormQuize = ({setShowAddFormModel ,quizeFormData ,setQuizeFormData}) => {
 
-// }] 
-const AddFormQuize = ({setShowAddFormModel}) => {
+
 const [showFormItem ,setShowhowFormItem] =useState(false)
   let [quest ,setQuest] =useState([{
     queMsg:"the value",
@@ -38,6 +16,20 @@ const [showFormItem ,setShowhowFormItem] =useState(false)
     ] ,
 
   }] );
+
+  // this is for store the question object
+  const [choose, setChoose] = useState([{
+    queMsg: "dfsfds",
+
+    answers: [
+      {
+        value: "",
+        correct: false,
+      }
+    ],
+
+  }])
+
 
     const [dataForm , setDataForm] = useState({
         title :"",
@@ -54,9 +46,19 @@ const [showFormItem ,setShowhowFormItem] =useState(false)
         
           }]
     }) ;
+
+    useEffect(()=>{
+      console.log("Im change here ")
+      // save choose objt in quest state :
+      setDataForm({...dataForm , questions:choose})
+      console.log(dataForm)
+        },[choose])
 const handdleChangQueMsg =(e)=>{
 
 }
+
+
+
     // for mcu question:
     const mcq ={
         queType:"mcq",
@@ -106,6 +108,14 @@ const formItem =[{
     handdleChange:handdleChange,
     queType:"short" //short or mcu
 },
+{
+  type:"email", //short answer or mcu
+  name:"formMakerEmail",
+  value:dataForm.formMakerEmail,
+  placeHolders:"Enter owner Email",
+  handdleChange:handdleChange,
+  queType:"short" //short or mcu
+},
 
 
 ]
@@ -124,32 +134,52 @@ const formItem =[{
 //     name:"title",
 //     value:
 // }
+
+const handdleSubmitForm=(e)=>{
+  e.preventDefault();
+  setQuizeFormData([...quizeFormData , dataForm])
+  setShowAddFormModel(false)
+
+console.dir(JSON.stringify( dataForm))
+}
   return (
     <>
-    
-<form  className='flex flex-col' >
+    <div className="absolute z-10 right-0 left-0 flex justify-center items-center py-4  ">
+{/* for making the blur background */}
+      <div className="relative bg-slate-100 px-4 m-12 py-4 rounded-md shadow-2xl  ">
+<h1 className='text-center text-4xl text-[#85a8ff] font-extrabold drop-shadow-3xl '>Create Quize</h1>
+
+<form onSubmit={handdleSubmitForm} className='flex flex-col w-[100%] min-w-[340px]  md:mt-0 lg:ml-0 xl:ml-0  border-3 border-red-500 border-solid  items-start' >
+
 {formItem.map((item,i) =>(
     <FormItem key={i} FormItem = {item} />
 
 ))}
 
-{showFormItem &&(
-  <FormItem  FormItem = {{queType:"mcq",
-  // for question input
-typeIntput:"text",
-name:"queMsg",
-value:"bb" ,
-titile:"question...."}} />
-)}
 
-<button type='button' className='bg-green-600 text-white flex justify-center items-center rounded-full shadow-2xl hover:bg-green-400 hover:drop-shadow-2xl 
- text-2xl w-8 h-8' onClick={()=>setShowhowFormItem(true)}><IoAddSharp /> </button>
+  <FormItem  FormItem = {{queType:"mcq"}} choose={choose} setChoose={setChoose} />
 
 
+{/* <button type='button' className='bg-green-600 text-white flex justify-center items-center rounded-full shadow-2xl hover:bg-green-400 hover:drop-shadow-2xl 
+ text-2xl w-8 h-8' onClick={()=>setShowhowFormItem(true)}><IoAddSharp /> </button> */}
+
+<button type='submit' className='bg-blue-400 px-3 py-2 rounded-md text-lg my-2  hover:drop-shadow-2xl font-mono font-semibold text-blue-100 hover:bg-green-50 hover:text-blue-900 shadow-2xl
+' >Create</button>
 </form>
 
       {/* for close the button */}
-      <button onClick={()=>setShowAddFormModel(false)}>closeme</button>
+      <button className='absolute top-2 right-2  text-2xl text-red-300 hover:text-red-500 hover:bg-red-200 peer/close' onClick={()=>setShowAddFormModel(false)}><CgCloseR/>
+      </button>
+
+      {/* for hover the button context */}
+      <div className="absolute top-8 right-5  md:right-[-85px] hidden   peer-hover/close:flex">
+
+      <span className='  bg-gray-50 shadow-md  font-thin py-2 px-4 rounded-full rounded-tr-none  md:rounded-full md:rounded-tl-none '>close Form</span>
+      </div>
+      
+      </div>
+      
+      </div>
     </>
   )
 }
